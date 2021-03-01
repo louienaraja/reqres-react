@@ -15,8 +15,6 @@ function CreateModal(props) {
   const [disableButton, setDisableButton] = useState(false)
 
   const onFinish = e => {
-    form.submit();
-    
     setDisableButton(true)
     User.createUser(email, firstName, lastName).then(e => {
       console.log('THIS E: ', e)
@@ -48,8 +46,6 @@ function CreateModal(props) {
         <Button
           id="Submit"
           key="submit"
-          // htmlType="submit"
-          // isSubmit={true}
           type={props.buttonType}
           disabled={disableButton}
           onClick={() => {
