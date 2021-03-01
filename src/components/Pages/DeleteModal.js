@@ -47,7 +47,7 @@ function DeleteModal(props) {
           disabled={disableButton}
           onClick={() => props.handleCancel()}
         >
-          <p>{disableButton ? <Spin indicator={antIcon}>Cancel</Spin> : "Cancel" }</p>
+          {disableButton ? <Spin indicator={antIcon}>Cancel</Spin> : "Cancel" }
         </Button>,
         <Button
           id="Submit"
@@ -56,7 +56,7 @@ function DeleteModal(props) {
           disabled={disableButton}
           onClick={() => deleteUserOnClick()}
         >
-          <p>{disableButton ? <Spin indicator={antIcon}>{props.action}</Spin> : props.action}</p>
+          {disableButton ? <Spin indicator={antIcon}>{props.action}</Spin> : props.action}
         </Button>
       ]}
     >

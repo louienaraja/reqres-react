@@ -5,6 +5,7 @@ import User from '../../service/User';
 import './modal.scss';
 
 function CreateModal(props) {
+  const [form] = Form.useForm()
 
   const antIcon = <LoadingOutlined style={{ fontSize: 20 }} spin />;
 
@@ -13,7 +14,9 @@ function CreateModal(props) {
   const [lastName, setLastName] = useState("")
   const [disableButton, setDisableButton] = useState(false)
 
-  const onFinish = () => {
+  const onFinish = e => {
+    form.submit();
+    
     setDisableButton(true)
     User.createUser(email, firstName, lastName).then(e => {
       console.log('THIS E: ', e)
@@ -28,9 +31,6 @@ function CreateModal(props) {
     })
   };
 
-  const [form] = Form.useForm()
-
-  // Form.Item validation not working?
 
   return (
     <Modal
@@ -43,19 +43,22 @@ function CreateModal(props) {
           disabled={disableButton}
           onClick={() => props.handleCancel()}
         >
-          <p>{disableButton ? <Spin indicator={antIcon}>Cancel</Spin> : "Cancel"}</p>
+          {disableButton ? <Spin indicator={antIcon}>Cancel</Spin> : "Cancel"}
         </Button>,
         <Button
           id="Submit"
           key="submit"
+          // htmlType="submit"
+          // isSubmit={true}
           type={props.buttonType}
           disabled={disableButton}
           onClick={() => {
-            onFinish();
+            form.submit();
+            Boolean(form.submit() !== undefined) && onFinish();
           }
           }
         >
-          <p>{disableButton ? <Spin indicator={antIcon}>{props.action}</Spin> : props.action}</p>
+          {disableButton ? <Spin indicator={antIcon}>{props.action}</Spin> : props.action}
         </Button>
       ]}
     >
@@ -63,42 +66,39 @@ function CreateModal(props) {
         <div className="modal-main-content">
           <Form.Item
             className="modal-title"
-            // name="email"
-            required
+            name="email"
+            label="Email"
             hasFeedback
             rules={[
               { required: 'true', message: 'Please input your email address!' },
               { type: 'email', message: 'This is not a valid email' }
             ]} >
-            <b>Email</b>
             <Input className="modal-content" placeholder="Email Address" onChange={e => setEmail(e.target.value)} />
           </Form.Item>
         </div>
         <div className="modal-main-content">
           <Form.Item
             className="modal-title"
-            // name="firstName"
-            required
+            name="firstName"
+            label="First Name"
             hasFeedback
             rules={[
               { required: true, message: 'Please input your first name!' },
               { pattern: new RegExp(/^[a-z ,.'-]+$/i), message: 'Numbers and Special Characters are NOT allowed.' }
             ]} >
-            <b>First Name</b>
             <Input className="modal-content" placeholder="First Name" onChange={e => setFirstName(e.target.value)} />
           </Form.Item>
         </div>
         <div className="modal-main-content">
           <Form.Item
             className="modal-title"
-            // name="lastName"
-            required
+            name="lastName"
+            label="Last Name"
             hasFeedback
             rules={[
               { required: true, message: 'Please input your last name!' },
               { pattern: new RegExp(/^[a-z ,.'-]+$/i), message: 'Numbers and Special Characters are NOT allowed.' }
             ]} >
-            <b>Last Name</b>
             <Input className="modal-content" placeholder="Last Name" onChange={e => setLastName(e.target.value)} />
           </Form.Item>
         </div>
