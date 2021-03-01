@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/reqres-react/static/css/main.69b0f5de.chunk.css",
+    "main.js": "/reqres-react/static/js/main.b643b733.chunk.js",
+    "main.js.map": "/reqres-react/static/js/main.b643b733.chunk.js.map",
+    "runtime-main.js": "/reqres-react/static/js/runtime-main.d178e9ec.js",
+    "runtime-main.js.map": "/reqres-react/static/js/runtime-main.d178e9ec.js.map",
+    "static/css/2.30e0ba9b.chunk.css": "/reqres-react/static/css/2.30e0ba9b.chunk.css",
+    "static/js/2.12455ba4.chunk.js": "/reqres-react/static/js/2.12455ba4.chunk.js",
+    "static/js/2.12455ba4.chunk.js.map": "/reqres-react/static/js/2.12455ba4.chunk.js.map",
+    "index.html": "/reqres-react/index.html",
+    "precache-manifest.a890599a6cc6d209e65b40a4d2d1e40b.js": "/reqres-react/precache-manifest.a890599a6cc6d209e65b40a4d2d1e40b.js",
+    "service-worker.js": "/reqres-react/service-worker.js",
+    "static/css/2.30e0ba9b.chunk.css.map": "/reqres-react/static/css/2.30e0ba9b.chunk.css.map",
+    "static/css/main.69b0f5de.chunk.css.map": "/reqres-react/static/css/main.69b0f5de.chunk.css.map",
+    "static/js/2.12455ba4.chunk.js.LICENSE.txt": "/reqres-react/static/js/2.12455ba4.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.d178e9ec.js",
+    "static/css/2.30e0ba9b.chunk.css",
+    "static/js/2.12455ba4.chunk.js",
+    "static/css/main.69b0f5de.chunk.css",
+    "static/js/main.b643b733.chunk.js"
+  ]
+}
