@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Input, Form, Spin } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons'; 
+import { LoadingOutlined } from '@ant-design/icons';
 import User from '../../service/User';
 import './modal.scss';
 
@@ -47,7 +47,7 @@ function EditModal(props) {
           disabled={disableButton}
           onClick={() => props.handleCancel()}
         >
-          {disableButton ? <Spin indicator={antIcon}>Cancel</Spin> : "Cancel" }
+          {disableButton ? <Spin indicator={antIcon}>Cancel</Spin> : "Cancel"}
         </Button>,
         <Button
           id="Submit"

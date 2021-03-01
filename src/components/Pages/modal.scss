@@ -26,6 +26,13 @@
     label {
       font-weight: 600;
     }
+
+    input.modal-content-edit{
+      margin: 1rem 0;
+      border: 1px solid gray;
+      display: flex;
+      flex-wrap: wrap;
+    }
       
     div.modal-content {
       margin: 1rem 0;
