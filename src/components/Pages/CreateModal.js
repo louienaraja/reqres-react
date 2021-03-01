@@ -43,7 +43,7 @@ function CreateModal(props) {
           disabled={disableButton}
           onClick={() => props.handleCancel()}
         >
-          <p>{disableButton ? <Spin indicator={antIcon} /> : "Cancel"}</p>
+          <p>{disableButton ? <Spin indicator={antIcon}>Cancel</Spin> : "Cancel"}</p>
         </Button>,
         <Button
           id="Submit"
@@ -55,7 +55,7 @@ function CreateModal(props) {
           }
           }
         >
-          <p>{disableButton ? <Spin indicator={antIcon} /> : props.action}</p>
+          <p>{disableButton ? <Spin indicator={antIcon}>{props.action}</Spin> : props.action}</p>
         </Button>
       ]}
     >

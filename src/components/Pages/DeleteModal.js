@@ -7,7 +7,7 @@ import './modal.scss';
 function DeleteModal(props) {
 
   const antIcon = <LoadingOutlined style={{ fontSize: 20 }} spin />;
-  
+
   const [id, setId] = useState("")
   const [email, setEmail] = useState("")
   const [firstName, setFirstName] = useState("")
@@ -47,7 +47,7 @@ function DeleteModal(props) {
           disabled={disableButton}
           onClick={() => props.handleCancel()}
         >
-          <p>{disableButton ? <Spin indicator={antIcon}/> : "Cancel" }</p>
+          <p>{disableButton ? <Spin indicator={antIcon}>Cancel</Spin> : "Cancel" }</p>
         </Button>,
         <Button
           id="Submit"
@@ -56,7 +56,7 @@ function DeleteModal(props) {
           disabled={disableButton}
           onClick={() => deleteUserOnClick()}
         >
-          <p>{disableButton ? <Spin indicator={antIcon}/> : props.action}</p>
+          <p>{disableButton ? <Spin indicator={antIcon}>{props.action}</Spin> : props.action}</p>
         </Button>
       ]}
     >
