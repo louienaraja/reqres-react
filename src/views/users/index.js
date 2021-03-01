@@ -17,7 +17,6 @@ function Index() {
 
   const [record, setRecord] = useState([]);
   const [selectedUser, setSelectedUser] = useState("");
-  const [selectedId, setSelectedId] = useState(null);
   const [selectedEmail, setSelectedEmail] = useState("");
   const [selectedFirstName, setSelectedFirstName] = useState("");
   const [selectedLastName, setSelectedLastName] = useState("");
@@ -76,7 +75,6 @@ function Index() {
             size="small"
             type="danger"
             onClick={() => {
-              setSelectedId(record['id'])
               setSelectedUser(`${record['first_name']} ${record['last_name']}`)
               User.viewUser(record.id)
                 .then(e => {
@@ -96,7 +94,6 @@ function Index() {
             className="btn-edit"
             size="small"
             onClick={() => {
-              setSelectedId(record['id'])
               setSelectedUser(`${record['first_name']} ${record['last_name']}`)
               User.viewUser(record.id)
                 .then(e => {
@@ -165,7 +162,6 @@ function Index() {
         } />
       <EditModal
         title={`Edit User ${selectedUser}`}
-        id={selectedId}
         email={selectedEmail}
         first_name={selectedFirstName}
         last_name={selectedLastName}
@@ -179,7 +175,6 @@ function Index() {
         } />
       <DeleteModal
         title={`Delete User ${selectedUser}?`}
-        id={selectedId}
         email={selectedEmail}
         first_name={selectedFirstName}
         last_name={selectedLastName}

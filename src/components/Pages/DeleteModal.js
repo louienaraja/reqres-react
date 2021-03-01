@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from 'react'
-import { Modal, Button } from 'antd'
-import User from '../../service/User'
-import './modal.scss'
+import React, { useState, useEffect } from 'react';
+import { Modal, Button, Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons'; 
+import User from '../../service/User';
+import './modal.scss';
 
 function DeleteModal(props) {
 
+  const antIcon = <LoadingOutlined style={{ fontSize: 20 }} spin />;
+  
   const [id, setId] = useState("")
   const [email, setEmail] = useState("")
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
+  const [disableButton, setDisableButton] = useState(false)
 
   useEffect(() => {
     setId(props.id)
@@ -18,6 +22,7 @@ function DeleteModal(props) {
   }, [props.id, props.email, props.first_name, props.last_name])
 
   const deleteUserOnClick = () => {
+    setDisableButton(true)
     User.deleteUser(id).then(e => {
       console.log('THIS E: ', e)
       const { data, status } = e;
@@ -25,6 +30,7 @@ function DeleteModal(props) {
       console.log('DATA: ', data)
       if (status === 204) {
         alert(`Deleted User ${firstName} ${lastName}`)
+        setDisableButton(false)
         props.handleOk()
       };
     })
@@ -38,17 +44,19 @@ function DeleteModal(props) {
       footer={[
         <Button
           key="back"
+          disabled={disableButton}
           onClick={() => props.handleCancel()}
         >
-          <p>Cancel</p>
+          <p>{disableButton ? <Spin indicator={antIcon}/> : "Cancel" }</p>
         </Button>,
         <Button
           id="Submit"
           key="submit"
           type={props.buttonType}
+          disabled={disableButton}
           onClick={() => deleteUserOnClick()}
         >
-          <p>{props.action}</p>
+          <p>{disableButton ? <Spin indicator={antIcon}/> : props.action}</p>
         </Button>
       ]}
     >

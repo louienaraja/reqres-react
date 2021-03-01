@@ -1,15 +1,20 @@
-import React, { useState } from 'react'
-import { Modal, Button, Input, Form } from 'antd'
-import User from '../../service/User'
-import './modal.scss'
+import React, { useState } from 'react';
+import { Modal, Button, Input, Form, Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
+import User from '../../service/User';
+import './modal.scss';
 
 function CreateModal(props) {
+
+  const antIcon = <LoadingOutlined style={{ fontSize: 20 }} spin />;
 
   const [email, setEmail] = useState("")
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
+  const [disableButton, setDisableButton] = useState(false)
 
   const onFinish = () => {
+    setDisableButton(true)
     User.createUser(email, firstName, lastName).then(e => {
       console.log('THIS E: ', e)
       const { data, status } = e;
@@ -17,6 +22,7 @@ function CreateModal(props) {
       console.log('DATA: ', data)
       if (status === 201) {
         alert(`Created User ${firstName} ${lastName}`)
+        setDisableButton(false)
         props.handleOk()
       };
     })
@@ -34,20 +40,22 @@ function CreateModal(props) {
       footer={[
         <Button
           key="back"
+          disabled={disableButton}
           onClick={() => props.handleCancel()}
         >
-          <p>Cancel</p>
+          <p>{disableButton ? <Spin indicator={antIcon} /> : "Cancel"}</p>
         </Button>,
         <Button
           id="Submit"
           key="submit"
           type={props.buttonType}
+          disabled={disableButton}
           onClick={() => {
             onFinish();
           }
           }
         >
-          <p>{props.action}</p>
+          <p>{disableButton ? <Spin indicator={antIcon} /> : props.action}</p>
         </Button>
       ]}
     >
