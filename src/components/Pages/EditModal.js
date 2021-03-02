@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Modal, Button, Input, Form, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import User from '../../service/User';
@@ -42,25 +43,29 @@ function EditModal(props) {
       title={<b>{props.title}</b>}
       visible={props.visible}
       footer={[
-        <Button
-          key="back"
-          disabled={disableButton}
-          onClick={() => props.handleCancel()}
-        >
-          {disableButton ? <Spin indicator={antIcon}>Cancel</Spin> : "Cancel"}
-        </Button>,
-        <Button
-          id="Submit"
-          key="submit"
-          type={props.buttonType}
-          disabled={disableButton}
-          onClick={() => {
-            onFinish();
-          }
-          }
-        >
-          {disableButton ? <Spin indicator={antIcon}>{props.action}</Spin> : props.action}
-        </Button>
+        <Link to="/users">
+          <Button
+            key="back"
+            disabled={disableButton}
+            onClick={() => props.handleCancel()}
+          >
+            {disableButton ? <Spin indicator={antIcon}>Cancel</Spin> : "Cancel"}
+          </Button>
+        </Link>,
+        <Link to="/users">
+          <Button
+            id="Submit"
+            key="submit"
+            type={props.buttonType}
+            disabled={disableButton}
+            onClick={() => {
+              onFinish();
+            }
+            }
+          >
+            {disableButton ? <Spin indicator={antIcon}>{props.action}</Spin> : props.action}
+          </Button>
+        </Link>
       ]}
     >
       <Form onFinish={onFinish}>
