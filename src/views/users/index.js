@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Container } from 'reactstrap';
+import { Link } from 'react-router-dom'
 import 'antd/dist/antd.css';
 import { Table, Button } from 'antd';
 import User from '../../service/User';
@@ -70,46 +71,50 @@ function Index() {
       width: '20%',
       render: (record) => (
         <div className="action-buttons">
-          <Button
-            className="btn-delete"
-            size="small"
-            type="danger"
-            onClick={() => {
-              setSelectedUser(`${record['first_name']} ${record['last_name']}`)
-              User.viewUser(record.id)
-                .then(e => {
-                  console.log('E: ', e)
-                  const { data } = e.data;
-                  console.log('DATASS: ', data);
-                  console.log('DATA EMAIL: ', data.email);
-                  setSelectedEmail(data.email);
-                  setSelectedFirstName(data.first_name);
-                  setSelectedLastName(data.last_name);
-                }).then(
-                  setVisibleDelete(true)
-                )
-            }}
-          > Delete </Button>
-          <Button
-            className="btn-edit"
-            size="small"
-            onClick={() => {
-              setSelectedUser(`${record['first_name']} ${record['last_name']}`)
-              User.viewUser(record.id)
-                .then(e => {
-                  console.log('E: ', e)
-                  const { data } = e.data;
-                  console.log('DATASS: ', data);
-                  console.log('DATA EMAIL: ', data.email);
-                  setSelectedEmail(data.email);
-                  setSelectedFirstName(data.first_name);
-                  setSelectedLastName(data.last_name);
-                }).then(
-                  setVisibleEdit(true)
-                )
-            }}
-          > Edit </Button>
-        </div>
+          <Link to={`/users/${record.id}/delete`}>
+            <Button
+              className="btn-delete"
+              size="small"
+              type="danger"
+              onClick={() => {
+                setSelectedUser(`${record['first_name']} ${record['last_name']}`)
+                User.viewUser(record.id)
+                  .then(e => {
+                    console.log('E: ', e)
+                    const { data } = e.data;
+                    console.log('DATASS: ', data);
+                    console.log('DATA EMAIL: ', data.email);
+                    setSelectedEmail(data.email);
+                    setSelectedFirstName(data.first_name);
+                    setSelectedLastName(data.last_name);
+                  }).then(
+                    setVisibleDelete(true)
+                  )
+              }}
+            > Delete </Button>
+          </Link>
+          <Link to={`/users/${record.id}/edit`} >
+            <Button
+              className="btn-edit"
+              size="small"
+              onClick={() => {
+                setSelectedUser(`${record['first_name']} ${record['last_name']}`)
+                User.viewUser(record.id)
+                  .then(e => {
+                    console.log('E: ', e)
+                    const { data } = e.data;
+                    console.log('DATASS: ', data);
+                    console.log('DATA EMAIL: ', data.email);
+                    setSelectedEmail(data.email);
+                    setSelectedFirstName(data.first_name);
+                    setSelectedLastName(data.last_name);
+                  }).then(
+                    setVisibleEdit(true)
+                  )
+              }}
+            > Edit </Button>
+          </Link >
+        </div >
       ),
     }
   ]
@@ -141,7 +146,9 @@ function Index() {
   return (
     <Container>
       <div className="mt-3 text-right">
-        <Button color="primary" type="primary" onClick={() => setVisibleCreate(true)}>+ Add User</Button>
+        <Link to="/users/create" >
+          <Button color="primary" type="primary" onClick={() => setVisibleCreate(true)}>+ Add User</Button>
+        </Link>
       </div>
 
       <Table columns={columns} dataSource={getDataSource()} pagination={{ pageSize: 20 }} />
