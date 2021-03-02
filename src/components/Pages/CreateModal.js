@@ -37,7 +37,7 @@ function CreateModal(props) {
       title={<b>{props.title}</b>}
       visible={props.visible}
       footer={[
-        <Link to="/users">
+        <Link to="/reqres-react/users">
           <Button
             key="back"
             disabled={disableButton}
@@ -46,7 +46,7 @@ function CreateModal(props) {
             {disableButton ? <Spin indicator={antIcon}>Cancel</Spin> : "Cancel"}
           </Button>
         </Link>,
-        <Link to="/users">
+        <Link to="/reqres-react/users">
           <Button
             id="Submit"
             key="submit"

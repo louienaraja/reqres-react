@@ -71,7 +71,7 @@ function Index() {
       width: '20%',
       render: (record) => (
         <div className="action-buttons">
-          <Link to={`/users/${record.id}/delete`}>
+          <Link to={`/reqres-react/users/${record.id}/delete`}>
             <Button
               className="btn-delete"
               size="small"
@@ -93,7 +93,7 @@ function Index() {
               }}
             > Delete </Button>
           </Link>
-          <Link to={`/users/${record.id}/edit`} >
+          <Link to={`/reqres-react/users/${record.id}/edit`} >
             <Button
               className="btn-edit"
               size="small"
@@ -146,7 +146,7 @@ function Index() {
   return (
     <Container>
       <div className="mt-3 text-right">
-        <Link to="/users/create" >
+        <Link to="/reqres-react/users/create" >
           <Button color="primary" type="primary" onClick={() => setVisibleCreate(true)}>+ Add User</Button>
         </Link>
       </div>

@@ -21,14 +21,14 @@ function PageNav() {
 
   return (
     <Navbar color="light" light expand="md">
-      <NavbarBrand tag={Link} to="/">
+      <NavbarBrand tag={Link} to="/reqres-react">
         Admin
       </NavbarBrand>
       <NavbarToggler onClick={toggle} />
       <Collapse isOpen={isOpen} navbar>
         <Nav className="mr-auto" navbar>
           <NavItem>
-            <NavLink tag={Link} to="/users">
+            <NavLink tag={Link} to="/reqres-react/users">
               Users
             </NavLink>
           </NavItem>

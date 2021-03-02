@@ -11,10 +11,10 @@ function App() {
       <Router>
         <Page>
           <Switch>
-            <Route exact path="/">
+            <Route exact path="/reqres-react/">
               <Home />
             </Route>
-            <Route path="/users">
+            <Route path="/reqres-react/users">
               <Users />
             </Route>
             <Route path="*">404</Route>
