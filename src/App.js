@@ -1,7 +1,7 @@
 import 'styles/main.scss';
 import React from 'react';
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
-import {Page} from 'components/Pages';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Page } from 'components/Pages';
 import Home from 'views/home';
 import Users from 'views/users';
 
@@ -14,7 +14,7 @@ function App() {
             <Route exact path="/reqres-react/">
               <Home />
             </Route>
-            <Route path="/reqres-react/users">
+            <Route path="/reqres-react/users/:id?/:action?">
               <Users />
             </Route>
             <Route path="*">404</Route>

@@ -1,98 +1,81 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Modal, Button, Input, Form, Spin } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
+import React, { useState } from 'react';
+import { Modal, Input, Form } from 'antd';
 import User from '../../service/User';
 import './modal.scss';
 
-function EditModal(props) {
+function EditModal({
+  handleCancel,
+  handleOk,
+  userData,
+  visible,
+}) {
+  const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false)
 
-  const antIcon = <LoadingOutlined style={{ fontSize: 20 }} spin />;
+  const onFinish = ({ id, email, firstName, lastName }) => {
+    setLoading(true)
 
-  const [id, setId] = useState("")
-  const [email, setEmail] = useState("")
-  const [firstName, setFirstName] = useState("")
-  const [lastName, setLastName] = useState("")
-  const [disableButton, setDisableButton] = useState(false)
-
-  useEffect(() => {
-    setId(props.id)
-    setEmail(props.email)
-    setFirstName(props.first_name)
-    setLastName(props.last_name)
-  }, [props.id, props.email, props.first_name, props.last_name])
-
-  const onFinish = () => {
-    setDisableButton(true)
     User.editUser(id, email, firstName, lastName).then(e => {
       console.log('THIS E: ', e)
       const { data, status } = e;
       console.log('STATUS: ', status)
       console.log('DATA: ', data)
+
       if (status === 200) {
-        alert(`Edited User ${firstName} ${lastName}`)
-        setDisableButton(false)
-        props.handleOk()
+        setLoading(false);
+
+        handleOk();
       };
     })
   };
 
   return (
     <Modal
-      closable={false}
-      title={<b>{props.title}</b>}
-      visible={props.visible}
-      footer={[
-        <Link to="/reqres-react/users">
-          <Button
-            key="back"
-            disabled={disableButton}
-            onClick={() => props.handleCancel()}
-          >
-            {disableButton ? <Spin indicator={antIcon}>Cancel</Spin> : "Cancel"}
-          </Button>
-        </Link>,
-        <Link to="/reqres-react/users">
-          <Button
-            id="Submit"
-            key="submit"
-            type={props.buttonType}
-            disabled={disableButton}
-            onClick={() => {
-              onFinish();
-            }
-            }
-          >
-            {disableButton ? <Spin indicator={antIcon}>{props.action}</Spin> : props.action}
-          </Button>
-        </Link>
-      ]}
+      destroyOnClose
+      confirmLoading={loading}
+      onCancel={() => handleCancel()}
+      onOk={() => form.submit()}
+      okText="Update"
+      title={`Edit user ${userData.email}`}
+      visible={visible}
     >
-      <Form onFinish={onFinish}>
-        <div className="modal-main-content">
-          <Form.Item
-            // name="email" 
-            className="modal-title">
-            <b>Email</b>
-            <Input className="modal-content" value={email} onChange={e => setEmail(e.target.value)} />
-          </Form.Item>
-        </div>
-        <div className="modal-main-content">
-          <Form.Item
-            // name="firstName"
-            className="modal-title">
-            <b>First Name</b>
-            <Input className="modal-content" value={firstName} onChange={e => setFirstName(e.target.value)} />
-          </Form.Item>
-        </div>
-        <div className="modal-main-content">
-          <Form.Item
-            // name="lastName"
-            className="modal-title">
-            <b>Last Name</b>
-            <Input className="modal-content" value={lastName} onChange={e => setLastName(e.target.value)} />
-          </Form.Item>
-        </div>
+      <Form form={form} initialValues={userData} layout="vertical" onFinish={onFinish}>
+        <Form.Item hidden name="id" className="modal-title">
+          <Input className="modal-content" />
+        </Form.Item>
+        <Form.Item
+          name="email"
+          label="Email"
+          hasFeedback
+          rules={[
+            { required: 'true', message: 'Please input your email address!' },
+            { type: 'email', message: 'This is not a valid email' }
+          ]}
+          className="modal-title">
+          <Input className="modal-content" />
+        </Form.Item>
+        <Form.Item
+          name="first_name"
+          label="First name"
+          hasFeedback
+          rules={[
+            { required: true, message: 'Please input your first name!' },
+            { pattern: new RegExp(/^[a-z ,.'-]+$/i), message: 'Numbers and Special Characters are NOT allowed.' }
+          ]}
+          className="modal-title">
+          <Input className="modal-content" />
+        </Form.Item>
+        <Form.Item
+          name="last_name"
+          label="Last Name"
+          hasFeedback
+          rules={[
+            { required: true, message: 'Please input your last name!' },
+            { pattern: new RegExp(/^[a-z ,.'-]+$/i), message: 'Numbers and Special Characters are NOT allowed.' }
+          ]}
+          className="modal-title">
+          <Input className="modal-content" />
+        </Form.Item>
       </Form>
     </Modal>
   )

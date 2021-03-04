@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Container } from 'reactstrap';
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import 'antd/dist/antd.css';
 import { Table, Button } from 'antd';
 import User from '../../service/User';
@@ -12,18 +12,15 @@ import './users.scss';
 
 function Index() {
 
-  React.useEffect(() => {
-    getUsersList()
-  }, [])
-
+  const { id = null, action = null } = useParams();
   const [record, setRecord] = useState([]);
-  const [selectedUser, setSelectedUser] = useState("");
-  const [selectedEmail, setSelectedEmail] = useState("");
-  const [selectedFirstName, setSelectedFirstName] = useState("");
-  const [selectedLastName, setSelectedLastName] = useState("");
-  const [visibleCreate, setVisibleCreate] = useState(false);
-  const [visibleEdit, setVisibleEdit] = useState(false);
-  const [visibleDelete, setVisibleDelete] = useState(false);
+  const [visibleCreate, setVisibleCreate] = useState([id, action].includes('create'));
+  const [visibleEdit, setVisibleEdit] = useState(action === 'edit' ? parseInt(id) : null);
+  const [visibleDelete, setVisibleDelete] = useState(action === 'delete' ? parseInt(id) : null);
+  
+  React.useEffect(() => {
+    !record.length && getUsersList();
+  }, [record])
 
   const columns = [
     {
@@ -40,8 +37,8 @@ function Index() {
       key: 'profile',
       align: 'center',
       width: '10%',
-      render: (profile) => (
-        <img src={profile} alt={profile} />
+      render: (profile, record) => (
+        <img src={profile} alt={record.email} />
       )
     },
     {
@@ -69,51 +66,45 @@ function Index() {
       title: "Actions",
       key: 'actions',
       width: '20%',
-      render: (record) => (
+      render: ({ id, first_name, last_name, email }) => (
         <div className="action-buttons">
-          <Link to={`/reqres-react/users/${record.id}/delete`}>
+          <Link to={{ pathname: `/reqres-react/users/${id}/delete` }}>
             <Button
               className="btn-delete"
               size="small"
               type="danger"
-              onClick={() => {
-                setSelectedUser(`${record['first_name']} ${record['last_name']}`)
-                User.viewUser(record.id)
-                  .then(e => {
-                    console.log('E: ', e)
-                    const { data } = e.data;
-                    console.log('DATASS: ', data);
-                    console.log('DATA EMAIL: ', data.email);
-                    setSelectedEmail(data.email);
-                    setSelectedFirstName(data.first_name);
-                    setSelectedLastName(data.last_name);
-                  }).then(
-                    setVisibleDelete(true)
-                  )
-              }}
+              onClick={() => setVisibleDelete(id)}
             > Delete </Button>
           </Link>
-          <Link to={`/reqres-react/users/${record.id}/edit`} >
+          <DeleteModal
+            userData={{ id, first_name, last_name, email }}
+            visible={visibleDelete === id}
+            action="Delete"
+            handleCancel={() => setVisibleDelete(null)}
+            handleOk={() => {
+              setVisibleDelete(null);
+
+              getUsersList();
+            }}
+          />
+          <Link to={{ pathname: `/reqres-react/users/${id}/edit` }} >
             <Button
               className="btn-edit"
               size="small"
-              onClick={() => {
-                setSelectedUser(`${record['first_name']} ${record['last_name']}`)
-                User.viewUser(record.id)
-                  .then(e => {
-                    console.log('E: ', e)
-                    const { data } = e.data;
-                    console.log('DATASS: ', data);
-                    console.log('DATA EMAIL: ', data.email);
-                    setSelectedEmail(data.email);
-                    setSelectedFirstName(data.first_name);
-                    setSelectedLastName(data.last_name);
-                  }).then(
-                    setVisibleEdit(true)
-                  )
-              }}
+              onClick={() => setVisibleEdit(true)}
             > Edit </Button>
           </Link >
+          <EditModal
+            userData={{ id, first_name, last_name, email }}
+            visible={visibleEdit === id}
+            action="Edit"
+            handleCancel={() => setVisibleEdit(null)}
+            handleOk={() => {
+              setVisibleEdit(null);
+
+              getUsersList();
+            }}
+          />
         </div >
       ),
     }
@@ -156,44 +147,13 @@ function Index() {
       {/* modals */}
       <CreateModal
         title="Create User"
-        // email={selectedEmail}
-        // first_name={selectedFirstName}
-        // last_name={selectedLastName}
         visible={visibleCreate}
-        action="Create"
-        buttonType="primary"
         handleCancel={() => setVisibleCreate(false)}
         handleOk={() => {
-          setVisibleCreate(false)
-        }
-        } />
-      <EditModal
-        title={`Edit User ${selectedUser}`}
-        email={selectedEmail}
-        first_name={selectedFirstName}
-        last_name={selectedLastName}
-        visible={visibleEdit}
-        action="Edit"
-        buttonType="primary"
-        handleCancel={() => setVisibleEdit(false)}
-        handleOk={() => {
-          setVisibleEdit(false)
-        }
-        } />
-      <DeleteModal
-        title={`Delete User ${selectedUser}?`}
-        email={selectedEmail}
-        first_name={selectedFirstName}
-        last_name={selectedLastName}
-        visible={visibleDelete}
-        action="Delete"
-        buttonType="danger"
-        handleCancel={() => setVisibleDelete(false)}
-        handleOk={() => {
-          setVisibleDelete(false)
-        }
-        } />
+          setVisibleCreate(false);
 
+          getUsersList();
+        }} />
     </Container>
 
   );
